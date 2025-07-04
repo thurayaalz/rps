@@ -14,7 +14,22 @@ function getComChoice(){
 }
 
 function getHuChoice(){
-    return prompt("whats your choice?");
+    const huChoice = "paper";
+    let Hc = document.querySelector("#choices");
+    Hc.addEventListener('click',(event)=> {
+        let target = event.target;
+        switch (target.id){
+            case 'paper':
+                huChoice= "paper";
+                break;
+            case 'scissors':
+                huChoice="scissors";
+                break;
+            case 'rock':
+                huChoice="rock";
+                break;
+        }
+        })
 }
 
 function getWinner(huChoice , comChoice){
@@ -33,17 +48,16 @@ function getWinner(huChoice , comChoice){
 }
 
  function playRound(){
-   for (i = 0; i<3;i++){ 
     // human inter a choice
     const huChoice = getHuChoice();
     const comChoice = getComChoice();
 
     //com calcualate the winner
-    console.log(getWinner(huChoice,comChoice));
+    console.log(getWinner(huChoice.toLowerCase(),comChoice));
     console.log(`You Chose: ${huChoice}`);
     console.log(`Computer Chose: ${comChoice}`);
     console.log(`Your score is ${Hscore}, computer score is ${Cscore}`);
-}
+
 }
 console.log(playRound());
 
