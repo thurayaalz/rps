@@ -1,63 +1,40 @@
 let Hscore = 0;
 let Cscore = 0;
+let huChoice = "";
+let comChoice = "";
+
 function getComChoice(){
-    let no =  Math.floor(Math.random() * 3); 
-    let choice = "paper";
-    if (no === 0) {
-        choice = "rock";
-    } else if (no === 1){
-        choice="paper";
+    return ["rock", "paper", "scissors"][Math.floor(Math.random() * 3)];
+}
+
+function getWinner(huChoice, comChoice){
+    if (huChoice === comChoice) {
+        return "Draw";
     } else {
-        choice="scissors";
-    }
-    return choice;
-}
-
-function getHuChoice(){
-    const huChoice = "paper";
-    let Hc = document.querySelector("#choices");
-    Hc.addEventListener('click',(event)=> {
-        let target = event.target;
-        switch (target.id){
-            case 'paper':
-                huChoice= "paper";
-                break;
-            case 'scissors':
-                huChoice="scissors";
-                break;
-            case 'rock':
-                huChoice="rock";
-                break;
+        switch (huChoice) {
+            case "rock":
+                return (comChoice === "scissors") ? (++Hscore, "You Win!") : (++Cscore, "You lost.");
+            case "paper":
+                return (comChoice === "rock") ? (++Hscore, "You Win!") : (++Cscore, "You lost.");
+            case "scissors":
+                return (comChoice === "paper") ? (++Hscore, "You Win!") : (++Cscore, "You lost.");
         }
-        })
+    }
 }
 
-function getWinner(huChoice , comChoice){
-    if (huChoice === comChoice){
-        return "draw";
-    }else {
-    switch (huChoice){
-        case "rock":
-            return (comChoice==="scissors")?(Hscore++,"You Win!"):(Cscore++,"You lost.");
-        case "paper":
-            return (comChoice==="scissors")?(Cscore++,"You lost."):(Hscore++,"You Win!");
-        case "scissors": 
-            return (comChoice==="paper")?(Hscore++,"You Win!"):(Cscore++, "You lost."); 
-    } 
+function playRound(event){
+    const target = event.target;
+    const validChoices = ["rock", "paper", "scissors"];
+
+    if (!validChoices.includes(target.id)) return;
+
+    huChoice = target.id;
+    comChoice = getComChoice();
+    const result = getWinner(huChoice, comChoice);
+
+    const Sc = document.querySelector("#score");
+    Sc.textContent = `You Chose: ${huChoice} | Computer Chose: ${comChoice} |
+     ${result} | Your Score: ${Hscore} | Computer Score: ${Cscore}`;
 }
-}
 
- function playRound(){
-    // human inter a choice
-    const huChoice = getHuChoice();
-    const comChoice = getComChoice();
-
-    //com calcualate the winner
-    console.log(getWinner(huChoice.toLowerCase(),comChoice));
-    console.log(`You Chose: ${huChoice}`);
-    console.log(`Computer Chose: ${comChoice}`);
-    console.log(`Your score is ${Hscore}, computer score is ${Cscore}`);
-
-}
-console.log(playRound());
-
+document.querySelector("#choices").addEventListener("click", playRound);
