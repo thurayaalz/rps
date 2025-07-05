@@ -2,7 +2,7 @@ let Hscore = 0;
 let Cscore = 0;
 let huChoice = "";
 let comChoice = "";
-
+let winner = "";
 function getComChoice(){
     return ["rock", "paper", "scissors"][Math.floor(Math.random() * 3)];
 }
@@ -33,8 +33,11 @@ function playRound(event){
     const result = getWinner(huChoice, comChoice);
 
     const Sc = document.querySelector("#score");
-    Sc.textContent = `You Chose: ${huChoice} | Computer Chose: ${comChoice} |
-     ${result} | Your Score: ${Hscore} | Computer Score: ${Cscore}`;
+    Sc.textContent = `You Chose: ${huChoice} | Computer Chose: ${comChoice} |${result} | Your Score: ${Hscore} | Computer Score: ${Cscore}`;
+     const Win = document.createElement("h2");
+     if (Hscore>4){winner="YOU WIN! YOU REACHED 5 POINTS";} else if (Cscore>4){winner="YOU LOST, COM REACHED 5 POINTS";}
+     Win.textContent = `${winner}`;
+     Sc.appendChild(Win);
 }
 
 document.querySelector("#choices").addEventListener("click", playRound);
